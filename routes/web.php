@@ -14,6 +14,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 https://localhost:8000/
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/mencoba', function (){
+    return view('mencoba');
 });
+
+Route::get('/',[App\Http\Controllers\HomeController::class, 'login'])
+->name('welcome');
+
+Route::get('/tamu/presensi',
+[App\Http\Controllers\BukuTamuController::class, 
+'create'])->name('absen_tamu');
+
+Route::post('/tamu/absen',
+[App\Http\Controllers\BukuTamuController::class,
+ 'store'])->name('tamu_submit');

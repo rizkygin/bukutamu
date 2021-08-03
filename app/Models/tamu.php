@@ -10,10 +10,14 @@ class tamu extends Model
     use HasFactory;
     protected $table = 'tamu';
 
-    // public function instansi(){
-    //     return $this->belongsTo(App\Models\instansi::class,'instansi_id');
-    // }
+    protected $fillable = [
+        'nama',
+        'instansi_id'
+    ];
     public function instansi(){
-        return $this->hasOne(instansi::class,'instansi_id');
+        return $this->belongsTo(instansi::class,'instansi_id');
     }
+    // public function instansi(){
+    //     return $this->hasOne(instansi::class,'instansi_id');
+    // }
 }
