@@ -40,11 +40,19 @@ class BukuTamuController extends Controller
         $user = Auth::user();
 
         // dd($user);
+        // $message = [
+        //     'required' => 'Dibutuhkan.',
+        // ];
+        // $request->validate([
+        //     'nama' => 'required',
+        // ],$message);
         \App\Models\tamu::create([
             'nama' => $request->nama,
             'instansi_id' => $request->instansi
         ]);
-        return redirect()->route('welcome');
+
+        return redirect()->route('welcome')
+        ->with('status',$request->nama.' Presensi Masuk');
     }
 
     /**
@@ -55,7 +63,7 @@ class BukuTamuController extends Controller
      */
     public function show($id)
     {
-        //
+        return $id;
     }
 
     /**
@@ -66,7 +74,10 @@ class BukuTamuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tamu = \App\models\tamu::find($id);
+        // dd($tamu);
+        $instansis = \App\Models\instansi::all();
+        return view ('form_tamu',compact('instansis','tamu'));
     }
 
     /**
@@ -78,7 +89,13 @@ class BukuTamuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $tamu = \App\Models\tamu::find($id);
+       $tamu->nama = $request->nama;
+       $tamu->instansi_id = $request->instansi;
+       $tamu->save();
+
+       return redirect()->route('welcome')
+       ->with('status','Berhasil Diubah');
     }
 
     /**
@@ -89,6 +106,10 @@ class BukuTamuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tamu = \App\Models\tamu::find($id);
+        $tamu->delete();
+        return redirect()->route('welcome')
+        ->with('danger',
+        $tamu->nama.' berhasil di hapus!');
     }
 }

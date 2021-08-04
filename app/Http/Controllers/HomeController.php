@@ -27,7 +27,7 @@ class HomeController extends Controller
         return view('home');
     }
     public function login(){
-        $data = \App\Models\tamu::all();
+        $data = \App\Models\tamu::orderBy('created_at','desc')->where('deleted_at',null)->get();
         $instansi = \App\Models\instansi::all();
         
         return view('masuk',compact(['data','instansi']));
